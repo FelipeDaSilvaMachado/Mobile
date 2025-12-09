@@ -13,22 +13,6 @@ const CadEngenheiro = () => {
     const [cnpj, setCnpj] = useState('');
     const [carregando, setCarregando] = useState(false);
 
-    const mascararDados = (dado) => {
-        if (!dado) {
-            return ''; // Proteção contra dados vazios
-        }
-
-        const str = String(dado).trim();
-        const len = str.length;
-        if (len <= 4) {
-            return str;
-        }
-        const inicio = str.substring(0, 2);
-        const fim = str.substring(len - 2);
-        const meioMascarado = '*'.repeat(len - 4);
-        return inicio + meioMascarado + fim;
-    };
-
     const validarCampos = () => {
         if (!nome || !email || !senha || !telefone || !crea || !cnpj) {
             Alert.alert('Atenção', 'Preencha todos os campos!');
@@ -48,7 +32,7 @@ const CadEngenheiro = () => {
         return true;
     };
 
-    const handleCadastro = async () => {
+    const handleCadEngenheiro = async () => {
         if (carregando) {
             return;
         }
@@ -62,17 +46,15 @@ const CadEngenheiro = () => {
         try {
             const credencialUsuario = await createUserWithEmailAndPassword(auth, email, senha);
             const { user } = credencialUsuario;
-            const creaMascarado = mascararDados(crea);
-            const cnpjMascarado = mascararDados(cnpj);
 
             await setDoc(doc(db, 'users', user.uid), {
-                nome: nome,
-                email: email,
-                telefone: telefone, // Adicionei o telefone que estava faltando
-                crea: creaMascarado,
-                cnpj: cnpjMascarado,
-                dataCriacao: new Date(), // Boa prática adicionar timestamp
-                uid: user.uid, // Referência ao ID do usuário
+                nome,
+                email,
+                telefone,
+                crea,
+                cnpj,
+                dataCriacao: new Date(),
+                uid: user.uid,
             });
 
             Alert.alert(
@@ -131,7 +113,7 @@ const CadEngenheiro = () => {
         cnpj,
         setCnpj,
         carregando,
-        handleCadastro
+        handleCadEngenheiro,
     };
 };
 

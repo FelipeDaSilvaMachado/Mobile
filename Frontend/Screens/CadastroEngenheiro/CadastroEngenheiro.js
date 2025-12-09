@@ -25,14 +25,17 @@ export default function CadastroEngenheiro({ navigation }) {
         cnpj,
         setCnpj,
         carregando,
-        handleCadastro
+        handleCadEngenheiro
     } = CadEngenheiro(navigation);
 
     return (
         <View style={StylesCadastroEngenheiro.container}>
             <StatusBar backgroundColor="#EAF0FA" barStyle="dark-content" />
 
-            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+            <ScrollView contentContainerStyle={{
+                flexGrow: 1,
+                justifyContent: 'center'
+            }}>
                 {/* Header */}
                 <TouchableOpacity style={{ marginBottom: 8 }} onPress={() => navigation.goBack()}>
                     <Text style={StylesCadastroEngenheiro.voltar}>← Voltar</Text>
@@ -92,7 +95,7 @@ export default function CadastroEngenheiro({ navigation }) {
                     <Text style={StylesCadastroEngenheiro.label}>CNPJ</Text>
                     <TextInput
                         style={StylesCadastroEngenheiro.input}
-                        placeholder="CNPJ da empresa"
+                        placeholder="CNPJ somente números"
                         value={cnpj}
                         onChangeText={setCnpj}
                         keyboardType="numeric"
@@ -105,8 +108,8 @@ export default function CadastroEngenheiro({ navigation }) {
                             carregando && { backgroundColor: '#ccc' }
                         ]}
                         onPress={async () => {
-                            await handleCadastro(); // Executa o cadastro primeiro
-                            navigation.navigate('LoginEngenheiro'); // Depois navega
+                            await handleCadEngenheiro();
+                            navigation.navigate('Login');
                         }}
                         disabled={carregando}
                     >
@@ -114,18 +117,8 @@ export default function CadastroEngenheiro({ navigation }) {
                             {carregando ? 'Cadastrando...' : 'Cadastrar Engenheiro'}
                         </Text>
                     </TouchableOpacity>
-
-                    {/* Link para Login */}
-                    <TouchableOpacity
-                        style={{ padding: 15, alignItems: 'center', marginTop: 15 }}
-                        onPress={() => navigation.navigate('LoginEngenheiro')}
-                    >
-                        <Text style={{ color: '#001F3F', fontWeight: '600' }}>
-                            Já tem conta? Faça login
-                        </Text>
-                    </TouchableOpacity>
                 </View>
-            </ScrollView >
+            </ScrollView>
         </View >
     );
 };
